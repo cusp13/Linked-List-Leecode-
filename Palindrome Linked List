@@ -1,0 +1,43 @@
+  Given the head of a singly linked list, return true if it is a 
+// palindrome
+//  or false otherwise.
+
+// Example 1:
+
+// Input: head = [1,2,2,1]
+// Output: true
+//  APPROACH :- Optimal approach is  first find the middle element and then reverse the next (middle ka next) of all element and then compair with head when and return
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+          ListNode *prev = NULL;
+          ListNode *curr = head;
+          while(curr!=NULL){
+              ListNode *forword = curr->next;
+              curr->next = prev;
+              prev = curr;
+              curr = forword;
+          }
+          return prev;
+    }
+    bool isPalindrome(ListNode* head) {
+        if(head==NULL || head->next==NULL){
+            return true;
+        }
+ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast->next!=NULL&&fast->next->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+      slow->next=reverseList(slow->next);
+      slow=slow->next;
+        while(slow!=NULL){
+            if(head->val != slow->val){
+                return false;
+            }
+            slow=slow->next;
+            head=head->next;
+        }
+        return true;
+    } 
