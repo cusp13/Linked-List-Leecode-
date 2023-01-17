@@ -1,0 +1,41 @@
+n the head of a linked list, remove the nth node from the end of the list and return its head.
+// Example 1:
+// Input: head = [1,2,3,4,5], n = 2
+// Output: [1,2,3,5]
+Approach:- we will reach that node
+APPROACH-1
+int getNthFromLast(Node *head, int n)
+{
+       // Your code here
+       Node *ans=head;
+       Node *temp=head;
+       int m=0;
+       while(temp!=NULL){
+           m++;
+           temp=temp->next;
+       }
+       if(n>m){
+           return -1;
+       }
+       int d = m-n;
+       while(d--){
+           ans=ans->next;
+       }
+       return ans->data;
+       
+}
+APPROACH-2
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *slow=head;
+        ListNode *fast=head;
+        while(n--){
+            fast=fast->next;
+        }
+        if(fast==NULL) return slow->next;
+        while(fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next;
+        }
+         slow->next=slow->next->next;
+    return head;
+    }
