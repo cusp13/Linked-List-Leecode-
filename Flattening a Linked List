@@ -1,0 +1,53 @@
+Example 1:
+
+Input:
+5 -> 10 -> 19 -> 28
+|     |     |     | 
+7     20    22   35
+|           |     | 
+8          50    40
+|                 | 
+30               45
+Output:  5-> 7-> 8- > 10 -> 19-> 20->
+22-> 28-> 30-> 35-> 40-> 45-> 50.
+Explanation:
+The resultant linked lists has every 
+node in a single level.
+
+Approach is to treat horizontal node as a new linked list and apply recurrsion at each node next is just merging two sorted list
+
+Node* merging(Node* l1,Node* l2){
+       Node *temp = new Node(0);
+       Node *res = temp;
+       while(l1!=NULL && l2!=NULL){
+           if(l1->data<l2->data){
+               temp->bottom=l1;
+               temp=temp->bottom;
+               l1 = l1->bottom;
+           }
+           else{
+               temp->bottom=l2;
+               temp=temp->bottom;
+               l2 = l2->bottom;
+           }
+       }
+       if(l1){
+           temp->bottom = l1;
+       }
+       else{
+           temp->bottom = l2;
+       }
+       return res->bottom;
+    }
+Node *flatten(Node *root)
+{
+   vector<int>vec;
+   Node *temp=root;
+   if(root==NULL || root->next==NULL){
+       return root;
+   }
+   root->next = flatten(root->next);
+   root = merging(root,root->next);
+   
+   return root;
+}
